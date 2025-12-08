@@ -46,7 +46,7 @@ map.forEach((row, rowIndex) => {
     if (rowIndex === 0) {
         return
     }
-    Object.keys(tachyonCells).forEach((tachyon, tachyonIndex) => {
+    Object.keys(tachyonCells).forEach((tachyon) => {
         const tachyonNumber = parseInt(tachyon)
         if (row[tachyonNumber] === '^' && tachyonCells[tachyonNumber]) {
             tachyonCells[tachyonNumber] = false
