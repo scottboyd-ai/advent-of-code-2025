@@ -1,0 +1,65 @@
+// const input = '' +
+//     '.......S.......\n' +
+//     '...............\n' +
+//     '.......^.......\n' +
+//     '...............\n' +
+//     '......^.^......\n' +
+//     '...............\n' +
+//     '.....^.^.^.....\n' +
+//     '...............\n' +
+//     '....^.^...^....\n' +
+//     '...............\n' +
+//     '...^.^...^.^...\n' +
+//     '...............\n' +
+//     '..^...^.....^..\n' +
+//     '...............\n' +
+//     '.^.^.^.^.^...^.\n' +
+//     '...............'
+
+import {input} from "./input";
+
+const map: string[][] = []
+
+const inputRows = input.split('\n')
+
+inputRows.forEach((row, rowIndex) => {
+    if (!map[rowIndex]) {
+        map[rowIndex] = []
+    }
+
+    map[rowIndex] = row.split('')
+})
+
+const startCell = map[0].indexOf('S')
+if (startCell < 0) {
+    throw new Error('Invalid start position')
+}
+
+const tachyonCells: {[index: number]: boolean} = {}
+if (Object.keys(tachyonCells).length === 0) {
+    tachyonCells[startCell] = true
+}
+
+let splits = 0
+
+map.forEach((row, rowIndex) => {
+    if (rowIndex === 0) {
+        return
+    }
+    Object.keys(tachyonCells).forEach((tachyon, tachyonIndex) => {
+        const tachyonNumber = parseInt(tachyon)
+        if (row[tachyonNumber] === '^' && tachyonCells[tachyonNumber]) {
+            tachyonCells[tachyonNumber] = false
+            if (!tachyonCells[tachyonNumber - 1]) {
+                tachyonCells[tachyonNumber - 1] = true;
+            }
+            if (!tachyonCells[tachyonNumber + 1]) {
+                tachyonCells[tachyonNumber + 1] = true
+            }
+            splits++
+        }
+    })
+})
+
+console.log(splits)
+
